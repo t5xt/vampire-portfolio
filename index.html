@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vampire</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="stars"></canvas>
+
+  <div id="overlay">
+    <div class="overlay-content">
+      <h2>Click to enter</h2>
+    </div>
+  </div>
+
+  <div class="card" id="content" style="display:none;">
+    <img src="pfp.png" alt="Profile Picture" class="pfp">
+    <h1>vampire</h1>
+    <p class="bio" id="bio"></p>
+
+    <div class="contact-box">
+      <p><strong>Mail:</strong> emre@richteen.lol</p>
+      <p><strong>Telegram:</strong> <a href="https://t.me/bunnysuits" target="_blank">bunnysuits</a></p>
+    </div>
+
+    <audio id="bgMusic" loop>
+      <source src="song.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const overlay = document.getElementById('overlay');
+    const content = document.getElementById('content');
+    const audio = document.getElementById('bgMusic');
+    const bio = document.getElementById('bio');
+
+    function typeWriter(text, element, delay = 100) {
+      element.textContent = "";
+      let i = 0;
+      const type = () => {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, delay);
+        }
+      };
+      type();
+    }
+
+    overlay.addEventListener('click', () => {
+      overlay.style.opacity = 0;
+      setTimeout(() => overlay.style.display = 'none', 1000);
+      content.style.display = 'block';
+
+      // Fade in music
+      audio.volume = 0;
+      audio.play();
+      let vol = 0.0;
+      const fadeIn = setInterval(() => {
+        if (vol < 1.0) {
+          vol += 0.01;
+          audio.volume = vol;
+        } else {
+          clearInterval(fadeIn);
+        }
+      }, 200);
+
+      // Typewriter bio text
+      typeWriter("i love my girlfriend", bio, 100);
+    });
+  </script>
+</body>
+</html>
